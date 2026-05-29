@@ -8,8 +8,6 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const gate = document.querySelector("#gate");
 const app = document.querySelector("#app");
-const sidebar = document.querySelector("#sidebar");
-const sidebarToggle = document.querySelector("#sidebar-toggle");
 const pageTitle = document.querySelector("#page-title");
 const accessCodeInput = document.querySelector("#access-code");
 const openBoardButton = document.querySelector("#open-board-button");
@@ -31,8 +29,9 @@ const checklistSettings = document.querySelector("#checklist-settings");
 const addChecklistItemButton = document.querySelector("#add-checklist-item-button");
 const layoutCompactButton = document.querySelector("#layout-compact-button");
 const layoutWideButton = document.querySelector("#layout-wide-button");
-const navButtons = document.querySelectorAll("[data-page]");
-const mobileNavButtons = document.querySelectorAll(".mobile-nav-button");
+const themeDarkButton = document.querySelector("#theme-dark-button");
+const themeLightButton = document.querySelector("#theme-light-button");
+const tabNavButtons = document.querySelectorAll(".tab-nav-button");
 const pages = {
   board: document.querySelector("#board-page"),
   checklist: document.querySelector("#checklist-page"),
@@ -67,6 +66,7 @@ let workflowColumns = cloneColumns(defaultWorkflowColumns);
 let checklistItems = cloneItems(defaultChecklistItems);
 let checklist = {};
 let layoutMode = "compact";
+let themeMode = "dark";
 let noteSaveTimer = null;
 
 function showMessage(text) {
@@ -114,6 +114,7 @@ function openGate() {
   checklist = {};
   checklistItems = cloneItems(defaultChecklistItems);
   workflowColumns = cloneColumns(defaultWorkflowColumns);
+  themeMode = "dark";
   window.localStorage.removeItem(storageKey);
   board.innerHTML = "";
   app.classList.add("hidden");
@@ -259,6 +260,8 @@ function renderSettings() {
   checklistSettings.innerHTML = "";
   layoutCompactButton.classList.toggle("active", layoutMode === "compact");
   layoutWideButton.classList.toggle("active", layoutMode === "wide");
+  themeDarkButton.classList.toggle("active", themeMode === "dark");
+  themeLightButton.classList.toggle("active", themeMode === "light");
 
   workflowColumns.forEach((column, index) => {
     const row = document.createElement("div");
@@ -401,15 +404,22 @@ function setLayoutMode(mode, shouldSave = true) {
   }
 }
 
+function setThemeMode(mode, shouldSave = true) {
+  themeMode = mode;
+  document.body.classList.toggle("theme-light", mode === "light");
+  renderSettings();
+
+  if (shouldSave) {
+    saveBoard({ quiet: true });
+  }
+}
+
 function setPage(pageName) {
   for (const [name, page] of Object.entries(pages)) {
     page.classList.toggle("active-page", name === pageName);
   }
 
-  for (const button of navButtons) {
-    button.classList.toggle("active", button.dataset.page === pageName);
-  }
-  for (const button of mobileNavButtons) {
+  for (const button of tabNavButtons) {
     button.classList.toggle("active", button.dataset.page === pageName);
   }
 
@@ -497,6 +507,7 @@ async function loadBoard() {
     ? data.value.checklistItems
     : cloneItems(defaultChecklistItems);
   layoutMode = data?.value?.layoutMode === "wide" ? "wide" : "compact";
+  themeMode = data?.value?.themeMode === "light" ? "light" : "dark";
   cards = Array.isArray(data?.value?.cards) ? data.value.cards : [];
   cards = cards.map((card) =>
     workflowColumns.some((column) => column.id === card.status)
@@ -507,6 +518,7 @@ async function loadBoard() {
   renderSettings();
   renderChecklist();
   setLayoutMode(layoutMode, false);
+  setThemeMode(themeMode, false);
   showStatus(cards.length ? "Board loaded" : "Empty board");
   showAppMessage(`Opened board for code: ${currentAccessCode}`);
 }
@@ -520,7 +532,14 @@ async function saveBoard({ quiet = false } = {}) {
       {
         access_code: currentAccessCode,
         item_key: boardItemKey,
-        value: { cards, columns: workflowColumns, checklist, checklistItems, layoutMode },
+        value: {
+          cards,
+          columns: workflowColumns,
+          checklist,
+          checklistItems,
+          layoutMode,
+          themeMode,
+        },
         updated_at: new Date().toISOString(),
       },
       { onConflict: "access_code,item_key" }
@@ -563,28 +582,15 @@ titleInput.addEventListener("keydown", (event) => {
     addCard();
   }
 });
-sidebarToggle.addEventListener("click", () => {
-  sidebar.classList.toggle("collapsed");
-  sidebarToggle.setAttribute(
-    "aria-label",
-    sidebar.classList.contains("collapsed") ? "Expand sidebar" : "Collapse sidebar"
-  );
-});
-for (const button of navButtons) {
-  button.addEventListener("click", () => {
-    setPage(button.dataset.page);
-    if (layoutMode === "compact") {
-      sidebar.classList.add("collapsed");
-    }
-  });
-}
-for (const button of mobileNavButtons) {
+for (const button of tabNavButtons) {
   button.addEventListener("click", () => setPage(button.dataset.page));
 }
 addStageButton.addEventListener("click", addStage);
 addChecklistItemButton.addEventListener("click", addChecklistItem);
 layoutCompactButton.addEventListener("click", () => setLayoutMode("compact"));
 layoutWideButton.addEventListener("click", () => setLayoutMode("wide"));
+themeDarkButton.addEventListener("click", () => setThemeMode("dark"));
+themeLightButton.addEventListener("click", () => setThemeMode("light"));
 refreshButton.addEventListener("click", loadBoard);
 saveButton.addEventListener("click", () => saveBoard());
 newCodeButton.addEventListener("click", openGate);

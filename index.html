@@ -43,23 +43,6 @@
     </main>
 
     <main id="app" class="app hidden">
-      <aside id="sidebar" class="sidebar collapsed" aria-label="App navigation">
-        <button
-          id="sidebar-toggle"
-          class="sidebar-toggle"
-          type="button"
-          aria-label="Expand sidebar"
-        >
-          ›
-        </button>
-        <p class="sidebar-brand">Vlog OS</p>
-        <nav class="nav-list">
-          <button class="nav-button active" type="button" data-page="board">Board</button>
-          <button class="nav-button" type="button" data-page="checklist">Shots</button>
-          <button class="nav-button" type="button" data-page="settings">Settings</button>
-        </nav>
-      </aside>
-
       <section class="app-main">
         <header class="topbar">
           <div>
@@ -102,6 +85,17 @@
         <section id="settings-page" class="page settings-page">
           <section class="settings-panel">
             <div>
+              <p class="eyebrow">Theme</p>
+              <h2>Choose app appearance</h2>
+            </div>
+            <div class="theme-options" role="group" aria-label="Theme mode">
+              <button id="theme-dark-button" type="button" class="secondary">Dark</button>
+              <button id="theme-light-button" type="button" class="secondary">Light</button>
+            </div>
+          </section>
+
+          <section class="settings-panel">
+            <div>
               <p class="eyebrow">Layout</p>
               <h2>Choose your screen style</h2>
             </div>
@@ -135,10 +129,10 @@
         </section>
       </section>
 
-      <nav class="mobile-nav" aria-label="Mobile navigation">
-        <button class="mobile-nav-button active" type="button" data-page="board">Board</button>
-        <button class="mobile-nav-button" type="button" data-page="checklist">Shots</button>
-        <button class="mobile-nav-button" type="button" data-page="settings">Settings</button>
+      <nav class="tab-nav" aria-label="App navigation">
+        <button class="tab-nav-button active" type="button" data-page="board">Board</button>
+        <button class="tab-nav-button" type="button" data-page="checklist">Shots</button>
+        <button class="tab-nav-button" type="button" data-page="settings">Settings</button>
       </nav>
     </main>
 
