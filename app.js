@@ -21,6 +21,7 @@ const titleInput = document.querySelector("#title-input");
 const locationInput = document.querySelector("#location-input");
 const platformInput = document.querySelector("#platform-input");
 const addCardButton = document.querySelector("#add-card-button");
+const stageFilter = document.querySelector("#stage-filter");
 const board = document.querySelector("#board");
 const checklistGrid = document.querySelector("#checklist-grid");
 const workflowSettings = document.querySelector("#workflow-settings");
@@ -67,6 +68,7 @@ let checklistItems = cloneItems(defaultChecklistItems);
 let checklist = {};
 let layoutMode = "compact";
 let themeMode = "dark";
+let selectedStageId = defaultWorkflowColumns[0].id;
 let noteSaveTimer = null;
 
 function showMessage(text) {
@@ -132,10 +134,41 @@ function previousColumnId(statusId) {
   return workflowColumns[Math.max(index - 1, 0)].id;
 }
 
-function renderBoard() {
-  board.innerHTML = "";
+function normalizeSelectedStage() {
+  if (!workflowColumns.some((column) => column.id === selectedStageId)) {
+    selectedStageId = workflowColumns[0].id;
+  }
+}
+
+function renderStageFilter() {
+  stageFilter.innerHTML = "";
 
   for (const column of workflowColumns) {
+    const count = cards.filter((card) => card.status === column.id).length;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "stage-chip";
+    button.classList.toggle("active", column.id === selectedStageId);
+    button.textContent = `${column.title} ${count}`;
+    button.addEventListener("click", () => {
+      selectedStageId = column.id;
+      renderStageFilter();
+      renderBoard();
+    });
+    stageFilter.appendChild(button);
+  }
+}
+
+function renderBoard() {
+  board.innerHTML = "";
+  normalizeSelectedStage();
+
+  const columnsToShow =
+    layoutMode === "compact"
+      ? workflowColumns.filter((column) => column.id === selectedStageId)
+      : workflowColumns;
+
+  for (const column of columnsToShow) {
     const columnCards = cards.filter((card) => card.status === column.id);
     const section = document.createElement("section");
     section.className = "column";
@@ -167,11 +200,16 @@ function renderBoard() {
 
     board.appendChild(section);
   }
+
+  renderStageFilter();
 }
 
 function renderCard(card) {
   const article = document.createElement("article");
   article.className = "card";
+  if (layoutMode === "compact") {
+    article.classList.add("compact-card");
+  }
 
   const title = document.createElement("h3");
   title.textContent = card.title;
@@ -351,6 +389,7 @@ function moveStage(fromIndex, toIndex) {
 function deleteStage(stageId) {
   const fallbackId = workflowColumns.find((column) => column.id !== stageId)?.id;
   workflowColumns = workflowColumns.filter((column) => column.id !== stageId);
+  selectedStageId = fallbackId;
 
   cards = cards.map((card) =>
     card.status === stageId ? { ...card, status: fallbackId } : card
@@ -364,6 +403,7 @@ function deleteStage(stageId) {
 function addStage() {
   const id = `stage-${crypto.randomUUID().slice(0, 8)}`;
   workflowColumns.push({ id, title: "New Stage" });
+  selectedStageId = id;
   renderSettings();
   renderBoard();
   saveBoard();
@@ -398,6 +438,7 @@ function setLayoutMode(mode, shouldSave = true) {
   app.classList.toggle("layout-compact", mode === "compact");
   app.classList.toggle("layout-wide", mode === "wide");
   renderSettings();
+  renderBoard();
 
   if (shouldSave) {
     saveBoard({ quiet: true });
@@ -465,6 +506,7 @@ function addCard() {
 
   titleInput.value = "";
   locationInput.value = "";
+  selectedStageId = workflowColumns[0].id;
   renderBoard();
   saveBoard();
 }
@@ -475,6 +517,7 @@ function moveCard(cardId, statusId) {
 
   card.status = statusId;
   card.updatedAt = new Date().toISOString();
+  selectedStageId = statusId;
   renderBoard();
   saveBoard({ quiet: true });
 }
@@ -509,6 +552,7 @@ async function loadBoard() {
   layoutMode = data?.value?.layoutMode === "wide" ? "wide" : "compact";
   themeMode = data?.value?.themeMode === "light" ? "light" : "dark";
   cards = Array.isArray(data?.value?.cards) ? data.value.cards : [];
+  selectedStageId = workflowColumns[0].id;
   cards = cards.map((card) =>
     workflowColumns.some((column) => column.id === card.status)
       ? card

@@ -228,6 +228,10 @@ textarea {
   padding: 14px 18px;
 }
 
+.stage-filter {
+  display: none;
+}
+
 .page {
   display: none;
   min-height: 0;
@@ -285,6 +289,10 @@ textarea {
   border-radius: 8px;
   background: var(--panel-3);
   padding: 12px;
+}
+
+.card.compact-card textarea {
+  min-height: 56px;
 }
 
 .card:focus-within {
@@ -486,7 +494,6 @@ textarea {
 }
 
 .app.layout-compact .quick-add,
-.app.layout-compact .board,
 .app.layout-compact .checklist-grid,
 .app.layout-compact .layout-options,
 .app.layout-compact .theme-options {
@@ -497,7 +504,38 @@ textarea {
   padding: 12px;
 }
 
+.app.layout-compact .stage-filter {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+  padding: 10px 12px;
+  scrollbar-width: none;
+}
+
+.app.layout-compact .stage-filter::-webkit-scrollbar {
+  display: none;
+}
+
+.stage-chip {
+  flex: 0 0 auto;
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel-3);
+  color: var(--muted);
+  padding: 7px 11px;
+}
+
+.stage-chip.active {
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
 .app.layout-compact .board {
+  grid-template-columns: 1fr;
   align-content: start;
   overflow: visible;
   padding: 12px;
@@ -505,6 +543,40 @@ textarea {
 
 .app.layout-compact .column {
   min-height: auto;
+  gap: 10px;
+  padding: 10px;
+}
+
+.app.layout-compact .column-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-2);
+  margin: -10px -10px 0;
+  padding: 10px;
+}
+
+.app.layout-compact .card {
+  gap: 8px;
+  padding: 10px;
+}
+
+.app.layout-compact .card h3 {
+  font-size: 0.98rem;
+}
+
+.app.layout-compact .card textarea {
+  min-height: 56px;
+  padding: 10px;
+}
+
+.app.layout-compact .card-actions {
+  gap: 6px;
+}
+
+.app.layout-compact .empty-state {
+  padding: 12px;
 }
 
 .app.layout-compact .stage-row {
@@ -555,11 +627,30 @@ textarea {
   }
 
   .quick-add,
-  .board,
   .checklist-grid,
   .layout-options,
   .theme-options {
     grid-template-columns: 1fr;
+  }
+
+  .stage-filter {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+    padding: 10px 12px;
+    scrollbar-width: none;
+  }
+
+  .stage-filter::-webkit-scrollbar {
+    display: none;
+  }
+
+  .board {
+    grid-template-columns: 1fr;
+    align-content: start;
+    overflow: visible;
   }
 
   .quick-add,
