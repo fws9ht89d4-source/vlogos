@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f1115" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Vlog OS" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>Vlog OS</title>
+    <link rel="manifest" href="./manifest.json" />
+    <style>
+      html,
+      body {
+        background: #0f1115;
+      }
+    </style>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main id="gate" class="gate">
+      <section class="gate-panel">
+        <p class="eyebrow">Vlog OS</p>
+        <h1>Open your creator board.</h1>
+
+        <div id="auth-form" class="auth-box">
+          <label for="access-code">Private access code</label>
+          <input
+            id="access-code"
+            type="text"
+            autocomplete="off"
+            placeholder="Example: trey-test"
+            required
+          />
+
+          <button type="button" id="open-board-button">Open board</button>
+        </div>
+
+        <p id="message" class="message" role="status" aria-live="polite">
+          Use the same code on your iPhone and Mac.
+        </p>
+      </section>
+    </main>
+
+    <main id="app" class="app hidden">
+      <aside id="sidebar" class="sidebar collapsed" aria-label="App navigation">
+        <button
+          id="sidebar-toggle"
+          class="sidebar-toggle"
+          type="button"
+          aria-label="Expand sidebar"
+        >
+          ›
+        </button>
+        <p class="sidebar-brand">Vlog OS</p>
+        <nav class="nav-list">
+          <button class="nav-button active" type="button" data-page="board">Board</button>
+          <button class="nav-button" type="button" data-page="checklist">Shots</button>
+          <button class="nav-button" type="button" data-page="settings">Settings</button>
+        </nav>
+      </aside>
+
+      <section class="app-main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Vlog OS</p>
+            <h1 id="page-title">Creator Board</h1>
+          </div>
+
+          <div class="topbar-actions">
+            <span id="status" class="status">Board ready</span>
+            <button id="refresh-button" class="secondary">Refresh</button>
+            <button id="save-button">Save</button>
+            <button id="new-code-button" class="secondary">Change code</button>
+          </div>
+        </header>
+
+        <p id="app-message" class="app-message" role="status" aria-live="polite">
+          Add a vlog idea, then move it through filming, editing, and posted.
+        </p>
+
+        <section id="board-page" class="page active-page">
+          <section class="quick-add" aria-label="Add vlog item">
+            <input id="title-input" type="text" placeholder="Vlog idea title" />
+            <input id="location-input" type="text" placeholder="Location, shot, or note" />
+            <select id="platform-input" aria-label="Platform">
+              <option value="YouTube">YouTube</option>
+              <option value="TikTok">TikTok</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Short film">Short film</option>
+            </select>
+            <button type="button" id="add-card-button">Add idea</button>
+          </section>
+
+          <section id="board" class="board" aria-label="Vlog workflow board"></section>
+        </section>
+
+        <section id="checklist-page" class="page checklist-page">
+          <section id="checklist-grid" class="checklist-grid" aria-label="Shot checklist"></section>
+        </section>
+
+        <section id="settings-page" class="page settings-page">
+          <section class="settings-panel">
+            <div>
+              <p class="eyebrow">Layout</p>
+              <h2>Choose your screen style</h2>
+            </div>
+            <div class="layout-options" role="group" aria-label="Layout mode">
+              <button id="layout-compact-button" type="button" class="secondary">
+                iPhone compact
+              </button>
+              <button id="layout-wide-button" type="button" class="secondary">
+                Mac wide
+              </button>
+            </div>
+          </section>
+
+          <section class="settings-panel">
+            <div>
+              <p class="eyebrow">Workflow</p>
+              <h2>Rename and reorder stages</h2>
+            </div>
+            <div id="workflow-settings" class="workflow-settings"></div>
+            <button id="add-stage-button" type="button">Add stage</button>
+          </section>
+
+          <section class="settings-panel">
+            <div>
+              <p class="eyebrow">Checklist</p>
+              <h2>Edit filming checklist</h2>
+            </div>
+            <div id="checklist-settings" class="workflow-settings"></div>
+            <button id="add-checklist-item-button" type="button">Add checklist item</button>
+          </section>
+        </section>
+      </section>
+
+      <nav class="mobile-nav" aria-label="Mobile navigation">
+        <button class="mobile-nav-button active" type="button" data-page="board">Board</button>
+        <button class="mobile-nav-button" type="button" data-page="checklist">Shots</button>
+        <button class="mobile-nav-button" type="button" data-page="settings">Settings</button>
+      </nav>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,739 @@
+:root {
+  color-scheme: dark;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: #0f1115;
+  color: #f7f4ed;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+body {
+  background: #0f1115;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  font-size: 16px;
+}
+
+button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 8px;
+  background: #3fcf8e;
+  color: #07110c;
+  cursor: pointer;
+  font-weight: 750;
+  padding: 10px 14px;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+button.secondary {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: #191c22;
+  color: #f7f4ed;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.gate {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.gate-panel {
+  width: min(100%, 520px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: #171a20;
+  padding: 28px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+}
+
+.eyebrow {
+  margin: 0 0 7px;
+  color: #74d99f;
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+.gate h1 {
+  margin-bottom: 22px;
+  font-size: clamp(2rem, 7vw, 3.25rem);
+  line-height: 1;
+}
+
+.auth-box {
+  display: grid;
+  gap: 12px;
+}
+
+label {
+  color: #d9d3c8;
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: #0b0d10;
+  color: #fff;
+  padding: 12px;
+}
+
+textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.message {
+  min-height: 48px;
+  margin: 18px 0 0;
+  border: 1px solid rgba(116, 217, 159, 0.26);
+  border-radius: 8px;
+  background: rgba(63, 207, 142, 0.08);
+  color: #e8fff2;
+  line-height: 1.4;
+  padding: 12px;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  min-height: 100vh;
+  background: #0f1115;
+}
+
+.mobile-nav {
+  display: none;
+}
+
+.sidebar {
+  position: relative;
+  z-index: 20;
+  width: 180px;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background: #12151a;
+  padding: 14px 10px;
+  transition: width 0.18s ease;
+}
+
+.sidebar.collapsed {
+  width: 42px;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  top: 10px;
+  right: -15px;
+  width: 30px;
+  min-height: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: #20242c;
+  color: #f7f4ed;
+  line-height: 1;
+  padding: 0;
+}
+
+.sidebar:not(.collapsed) .sidebar-toggle {
+  transform: rotate(180deg);
+}
+
+.sidebar-brand {
+  margin: 6px 0 18px;
+  color: #74d99f;
+  font-weight: 800;
+  opacity: 1;
+  padding: 0 8px;
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .sidebar-brand,
+.sidebar.collapsed .nav-button {
+  color: transparent;
+  overflow: hidden;
+}
+
+.nav-list {
+  display: grid;
+  gap: 8px;
+}
+
+.nav-button {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #d9d3c8;
+  text-align: left;
+}
+
+.nav-button.active {
+  border-color: rgba(63, 207, 142, 0.28);
+  background: rgba(63, 207, 142, 0.12);
+  color: #e8fff2;
+}
+
+.app-main {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  min-width: 0;
+  min-height: 100vh;
+}
+
+.topbar {
+  display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #171a20;
+  padding: 14px 18px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.status {
+  color: #c7c0b5;
+  font-size: 0.9rem;
+  min-width: 96px;
+  text-align: right;
+}
+
+.app-message {
+  margin: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111419;
+  color: #c7c0b5;
+  font-size: 0.95rem;
+  padding: 10px 18px;
+}
+
+.quick-add {
+  display: grid;
+  position: sticky;
+  top: 79px;
+  z-index: 9;
+  grid-template-columns: minmax(180px, 1.4fr) minmax(160px, 1fr) 150px auto;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #151820;
+  padding: 14px 18px;
+}
+
+.page {
+  display: none;
+  min-height: 0;
+}
+
+.active-page {
+  display: block;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(240px, 1fr));
+  gap: 14px;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior-x: contain;
+  padding: 18px;
+  scroll-snap-type: x proximity;
+}
+
+.checklist-page,
+.settings-page {
+  display: none;
+  gap: 18px;
+  align-content: start;
+  overflow: auto;
+  padding: 18px;
+}
+
+.checklist-page.active-page {
+  display: block;
+}
+
+.settings-page.active-page {
+  display: grid;
+}
+
+.checklist-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.check-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 72px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: #171a20;
+  color: #f7f4ed;
+  padding: 14px;
+}
+
+.check-card input {
+  width: 20px;
+  height: 20px;
+  accent-color: #3fcf8e;
+}
+
+.settings-panel {
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+}
+
+.settings-panel h2 {
+  margin: 0;
+}
+
+.workflow-settings {
+  display: grid;
+  gap: 10px;
+}
+
+.stage-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: #171a20;
+  padding: 10px;
+}
+
+.stage-row button {
+  min-width: 42px;
+  padding: 8px 10px;
+}
+
+.layout-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.layout-options button.active {
+  border-color: rgba(63, 207, 142, 0.42);
+  background: rgba(63, 207, 142, 0.16);
+  color: #e8fff2;
+}
+
+.app.layout-compact {
+  grid-template-columns: 1fr;
+  padding-bottom: 66px;
+}
+
+.app.layout-compact .sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 190px;
+  height: 100vh;
+  box-shadow: 20px 0 60px rgba(0, 0, 0, 0.32);
+}
+
+.app.layout-compact .sidebar.collapsed {
+  width: 42px;
+  box-shadow: none;
+}
+
+.app.layout-compact .sidebar.collapsed .sidebar-brand,
+.app.layout-compact .sidebar.collapsed .nav-button {
+  color: transparent;
+  overflow: hidden;
+}
+
+.app.layout-compact .sidebar:not(.collapsed) .sidebar-brand {
+  color: #74d99f;
+}
+
+.app.layout-compact .sidebar:not(.collapsed) .nav-button {
+  color: #d9d3c8;
+}
+
+.app.layout-compact .sidebar:not(.collapsed) .nav-button.active {
+  color: #e8fff2;
+}
+
+.app.layout-compact .sidebar-toggle {
+  width: 38px;
+  min-height: 38px;
+  right: -19px;
+}
+
+.app.layout-compact .app-main {
+  padding-left: 42px;
+}
+
+.app.layout-compact .topbar {
+  align-items: flex-start;
+  flex-direction: column;
+  position: static;
+}
+
+.app.layout-compact .topbar-actions {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: stretch;
+}
+
+.app.layout-compact .topbar-actions button {
+  width: 100%;
+}
+
+.app.layout-compact .status {
+  grid-column: 1 / -1;
+  order: initial;
+  width: 100%;
+  text-align: left;
+}
+
+.app.layout-compact .quick-add {
+  grid-template-columns: 1fr;
+  position: static;
+}
+
+.app.layout-compact .board {
+  grid-template-columns: 1fr;
+  align-content: start;
+  overflow: visible;
+  overscroll-behavior-x: auto;
+  padding: 14px;
+  scroll-snap-type: none;
+}
+
+.app.layout-compact .column {
+  min-height: auto;
+  scroll-snap-align: none;
+}
+
+.app.layout-compact .checklist-grid,
+.app.layout-compact .layout-options {
+  grid-template-columns: 1fr;
+}
+
+.app.layout-compact .mobile-nav {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 42px;
+  z-index: 18;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(18, 21, 26, 0.98);
+  padding: 8px;
+}
+
+.mobile-nav-button {
+  min-height: 46px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #191c22;
+  color: #d9d3c8;
+  padding: 8px;
+}
+
+.mobile-nav-button.active {
+  border-color: rgba(63, 207, 142, 0.42);
+  background: rgba(63, 207, 142, 0.14);
+  color: #e8fff2;
+}
+
+.app.layout-compact .stage-row {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.app.layout-compact .stage-row input {
+  grid-column: 1 / -1;
+}
+
+.app.layout-wide .board {
+  grid-template-columns: repeat(4, minmax(260px, 1fr));
+}
+
+.app.layout-wide .checklist-grid {
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+}
+
+.column {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  min-height: 520px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: #14171d;
+  padding: 12px;
+  scroll-snap-align: start;
+}
+
+.column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.column h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.count {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #d9d3c8;
+  font-size: 0.8rem;
+  font-weight: 750;
+  padding: 4px 8px;
+}
+
+.card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: #1d2129;
+  padding: 12px;
+}
+
+.card:focus-within {
+  border-color: rgba(63, 207, 142, 0.45);
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pill {
+  border-radius: 999px;
+  background: rgba(116, 217, 159, 0.12);
+  color: #d9f7e6;
+  font-size: 0.78rem;
+  padding: 4px 8px;
+}
+
+.card textarea {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: #12151a;
+  color: #f7f4ed;
+}
+
+.card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.card-actions button {
+  min-height: 38px;
+  padding: 8px 10px;
+}
+
+.danger {
+  border: 1px solid rgba(255, 123, 123, 0.28) !important;
+  color: #ffb5b5 !important;
+}
+
+.card-time {
+  color: #8f95a3;
+  font-size: 0.78rem;
+}
+
+.empty-state {
+  border: 1px dashed rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  color: #8f95a3;
+  line-height: 1.4;
+  padding: 14px;
+}
+
+@media (max-width: 980px) {
+  .quick-add {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .board {
+    grid-template-columns: repeat(4, minmax(250px, 78vw));
+  }
+
+  .checklist-grid {
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .app {
+    grid-template-columns: 1fr;
+    padding-bottom: 66px;
+  }
+
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    height: 100vh;
+  }
+
+  .sidebar:not(.collapsed) {
+    width: 190px;
+    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.32);
+  }
+
+  .sidebar:not(.collapsed) .sidebar-brand {
+    color: #74d99f;
+  }
+
+  .sidebar:not(.collapsed) .nav-button {
+    color: #d9d3c8;
+  }
+
+  .sidebar:not(.collapsed) .nav-button.active {
+    color: #e8fff2;
+  }
+
+  .app-main {
+    padding-left: 42px;
+  }
+
+  .mobile-nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 42px;
+    z-index: 18;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(18, 21, 26, 0.98);
+    padding: 8px;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    position: static;
+  }
+
+  .topbar-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: stretch;
+  }
+
+  .topbar-actions button {
+    width: 100%;
+  }
+
+  .status {
+    grid-column: 1 / -1;
+    order: initial;
+    width: 100%;
+    text-align: left;
+  }
+
+  .quick-add {
+    grid-template-columns: 1fr;
+    position: static;
+  }
+
+  .board {
+    grid-template-columns: 1fr;
+    align-content: start;
+    overflow: visible;
+    overscroll-behavior-x: auto;
+    padding: 14px;
+    scroll-snap-type: none;
+  }
+
+  .column {
+    min-height: auto;
+    scroll-snap-align: none;
+  }
+
+  .checklist-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stage-row {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .stage-row input {
+    grid-column: 1 / -1;
+  }
+}
