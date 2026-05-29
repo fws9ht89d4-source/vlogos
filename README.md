@@ -6,6 +6,8 @@ code.
 
 Deployment test: updates from this repo should redeploy automatically on Vercel.
 
+GitHub Desktop test: this line confirms local edits show up for commit and push.
+
 ## Local links
 
 - Mac: http://localhost:5173/index.html
